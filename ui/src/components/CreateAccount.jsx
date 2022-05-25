@@ -3,10 +3,11 @@ import React, { useState } from 'react';
 import { CRUD } from '../crud';
 import { useFetch } from '../hooks';
 import { useNavigate } from 'react-router-dom';
-import { useUpdateAppContext } from '../context';
+import { useAppContext, useUpdateAppContext } from '../context';
 
 export const CreateAccount = () => {
     const navigate = useNavigate();
+    const appContext = useAppContext();
     const setAppContext = useUpdateAppContext();
     const users = useFetch('http://localhost:8080/api/users');
     const [account, setAccount] = useState({username: '', first: '', last: '', password: ''});
@@ -23,7 +24,7 @@ export const CreateAccount = () => {
     const handleCreate = () => {
         if(!duplicateUsername && account.username !=='' && account.password !== '' && account.first !== '' && account.last !== ''){
             CRUD({method: 'POST', path: 'http://localhost:8080/api/users', data: account})
-            setAppContext({username: account.username, loggedIn: true})
+            setAppContext({...appContext, username: account.username, loggedIn: true})
             navigate('/')   
         }
         

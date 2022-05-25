@@ -5,12 +5,13 @@ import React, { useState } from 'react';
 import { useFetch } from '../hooks';
 import { useAppContext, useUpdateAppContext } from '../context';
 import { Link } from 'react-router-dom';
-
+import { useNavigate } from 'react-router-dom';
 
 export const Bar = () => {
+    const navigate = useNavigate();
     const appContext = useAppContext();
-    const settings = appContext.username === '' ? ['Login Required'] : ['Create New Post', 'My Posts', 'Dashboard', 'Logout'];
     const setAppContext = useUpdateAppContext();
+    const settings = appContext.username === '' ? ['Login Required'] : ['Create New Post', 'My Posts', 'Dashboard', 'Logout'];
     const {data: users} = useFetch('http://localhost:8080/api/users')
     const [anchorElUser, setAnchorElUser] = useState(null);
     const [loginData, setLoginData] = useState({username: '', password: ''})
@@ -20,15 +21,22 @@ export const Bar = () => {
     };
     const handleCloseUserMenu = (setting = '') => {
         setAnchorElUser(null);
-        console.log(setting)
         if(setting === 'Logout') { 
-            setAppContext({username: '', loggedIn: false})
-            console.log('logging out')
+            setAppContext({...appContext, username: '', loggedIn: false})
+            navigate('/', { replace: true }, [navigate])
+        } else if (setting === 'My Posts') {
+            navigate(`/user/${appContext.username}`, { replace: true }, [navigate])
+        } else if (setting === 'Dashboard') {
+            navigate('/', { replace: true }, [navigate])
+        } else if (setting === 'Create New Post') {
+            navigate('/newpost', { replace: true }, [navigate])
         }
+
     };
     const handleLoginClick = () => {
         const userFound = users.filter(user => user.username === loginData.username)[0]
-        userFound ? setAppContext({username: loginData.username, loggedIn: true}) : setLoginData({...loginData, password: ''})
+        userFound ? setAppContext({...appContext, username: loginData.username, loggedIn: true}) : setLoginData({...loginData, password: ''})
+        navigate('/', { replace: true }, [navigate])
     }
     const handleLoginChange = (value, target) => {
         let tmpLogin = {...loginData}

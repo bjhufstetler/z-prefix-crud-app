@@ -30,7 +30,7 @@ export const Post = ( props ) => {
         setExpanded(!expanded);
     };
     const handleDelete = () => {
-        CRUD({method: 'DELETE', path: 'http://localhost:8080/api/post', data:post})
+        CRUD({method: 'DELETE', path: appContext.postURL, data:post})
         setDeleted(true)
     }
     const handleEditClick = () => {
@@ -43,12 +43,12 @@ export const Post = ( props ) => {
         setPostEdit(tmp)
     }
     const handleSaveClick = () => {
-        CRUD({method: 'PATCH', path: 'http://localhost:8080/api/post', data: postEdit})
+        CRUD({method: 'PATCH', path: appContext.postURL, data: postEdit})
         setEditMode(false)
     }
 
     return(
-        <Card variant='outlined'>
+        <Card variant='outlined' sx={{backgroundColor: 'rgba(40,75,99,.5)'}}>
             <CardHeader
                 avatar={editMode ? <TextField value={postEdit.title} onChange={e => handlePostEdit(e.target.value, 'title')}/> : postEdit.title}
                 title={`@${post.user.username} - ${post.user.first} ${post.user.last}`}
