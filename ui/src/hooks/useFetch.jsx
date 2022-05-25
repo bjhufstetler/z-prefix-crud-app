@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 export const useFetch = (url) => {
     const [data, setData] = useState([]);
     const [err, setErr] = useState(null);
-    const [load, setLoad] = useState(true);
+    const [load, setLoad] = useState(false);
 
     useEffect(() => {
         fetch(url)
@@ -17,7 +17,7 @@ export const useFetch = (url) => {
         })
         .then( json => setData(json) )
         .catch( e => setErr(e) )
-        .finally(() => setLoad(false));
+        .finally(() => setLoad(true));
     }, [url]);
 
     return { data, err, load };

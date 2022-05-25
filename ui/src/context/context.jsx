@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 const appContext = React.createContext();
 const updateAppContext = React.createContext();
 
-const defaultAppContext = [];
+const defaultAppContext = {username: '', loggedIn: false};
 
 export const useAppContext = () => { return(useContext(appContext)) };
 export const useUpdateAppContext = () => {return(useContext(updateAppContext)) };
