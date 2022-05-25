@@ -4,7 +4,12 @@ import PropTypes from 'prop-types';
 const appContext = React.createContext();
 const updateAppContext = React.createContext();
 
-const defaultAppContext = {username: '', loggedIn: false};
+const defaultAppContext = {
+    username: '',
+    loggedIn: false,
+    userURL: 'http://localhost:8080/api/users',
+    postURL: 'http://localhost:8080/api/post'
+};
 
 export const useAppContext = () => { return(useContext(appContext)) };
 export const useUpdateAppContext = () => {return(useContext(updateAppContext)) };

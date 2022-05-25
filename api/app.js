@@ -66,7 +66,7 @@ app.patch('/api/:table/:id', (req, res) => {
 
 app.delete('/api/:table/:id',(req, res) => {
     knex(req.params.table)
-    .where('username', req.params.id)
+    .where('id', req.params.id)
     .del()
     .then(() => {
         knex(req.params.table)

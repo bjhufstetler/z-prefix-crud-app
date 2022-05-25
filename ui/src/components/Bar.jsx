@@ -6,10 +6,10 @@ import { useFetch } from '../hooks';
 import { useAppContext, useUpdateAppContext } from '../context';
 import { Link } from 'react-router-dom';
 
-const settings = ['Profile', 'My Posts', 'Dashboard', 'Logout'];
 
 export const Bar = () => {
     const appContext = useAppContext();
+    const settings = appContext.username === '' ? ['Login Required'] : ['Create New Post', 'My Posts', 'Dashboard', 'Logout'];
     const setAppContext = useUpdateAppContext();
     const {data: users} = useFetch('http://localhost:8080/api/users')
     const [anchorElUser, setAnchorElUser] = useState(null);

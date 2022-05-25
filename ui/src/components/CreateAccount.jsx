@@ -21,15 +21,11 @@ export const CreateAccount = () => {
         }
     }
     const handleCreate = () => {
-        console.log('start')
         if(!duplicateUsername && account.username !=='' && account.password !== '' && account.first !== '' && account.last !== ''){
             CRUD({method: 'POST', path: 'http://localhost:8080/api/users', data: account})
-            console.log('middle')
             setAppContext({username: account.username, loggedIn: true})
-            navigate('/')
-            
+            navigate('/')   
         }
-        console.log('end')
         
     }
     return(

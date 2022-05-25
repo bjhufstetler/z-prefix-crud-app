@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useFetch } from '../hooks';
 import { Post } from './'
-
-
+import { useAppContext } from '../context';
 
 export const Posts = () => {
-    
-    const posts = useFetch('http://localhost:8080/api/post');
-    const users = useFetch('http://localhost:8080/api/users');
+    const appContext = useAppContext();
+    const posts = useFetch(appContext.postURL);
+    const users = useFetch(appContext.userURL);
     const [postData, setPostData] = useState([]);
     
     useEffect(() => { // Use this to combine the user data with the post data
@@ -20,7 +19,7 @@ export const Posts = () => {
 
     return(
         <div>
-        {postData.map((post, index) => (
+        {postData.sort((a,b) => (a.timestamp > b.timestamp) ? 1 : -1).map((post, index) => (
             <Post post={post} key={index} />
         ))}
       </div>
