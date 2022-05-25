@@ -2,6 +2,7 @@ import { AppBar, Toolbar, Typography, Box, IconButton, Menu, MenuItem, TextField
 import MenuIcon from '@mui/icons-material/Menu';
 import { Container } from '@mui/system';
 import React, { useState } from 'react';
+import { useFetch } from '../hooks';
 import { useAppContext, useUpdateAppContext } from '../context';
 
 const settings = ['Profile', 'My Posts', 'Dashboard', 'Logout'];
@@ -9,24 +10,37 @@ const settings = ['Profile', 'My Posts', 'Dashboard', 'Logout'];
 export const Bar = () => {
     const appContext = useAppContext();
     const setAppContext = useUpdateAppContext();
+    const {data: users} = useFetch('http://localhost:8080/api/user')
     const [anchorElUser, setAnchorElUser] = useState(null);
-    const loginData = useState({username: '', password: ''})
+    const [loginData, setLoginData] = useState({username: '', password: ''})
+    
     const handleOpenUserMenu = e => {
         setAnchorElUser(e.currentTarget);
     };
-    const handleCloseUserMenu = () => {
+    const handleCloseUserMenu = (setting = '') => {
         setAnchorElUser(null);
+        console.log(setting)
+        if(setting === 'Logout') { 
+            setAppContext({username: '', loggedIn: false})
+            console.log('logging out')
+        }
     };
     const handleCreateClick = () => {
 
     }
     const handleLoginClick = () => {
-
+        const userFound = users.filter(user => user.username === loginData.username)[0]
+        userFound ? setAppContext({username: loginData.username, loggedIn: true}) : setLoginData({...loginData, password: ''})
+    }
+    const handleLoginChange = (value, target) => {
+        let tmpLogin = {...loginData}
+        tmpLogin[target] = value
+        setLoginData(tmpLogin)
     }
     return (
         <AppBar postition='static'>
             <Container maxWidth='xl'>
-                <Toolbar disableGutters>
+                <Toolbar disableGutters sx={{display: 'flex', justifyContent: 'space-between'}}>
                     <Box sx={{flexGrow: 0 }} >
                         <IconButton onClick={e => handleOpenUserMenu(e)} sx={{ p: 0}}>
                             <MenuIcon />
@@ -37,18 +51,18 @@ export const Bar = () => {
                             anchorEl={anchorElUser}
                             anchorOrigin={{
                                 vertical: 'top',
-                                horizontal: 'right',
+                                horizontal: 'left',
                             }}
                             keepMounted
                             transformOrigin={{
                                 vertical: 'top',
-                                horizontal: 'right',
+                                horizontal: 'left',
                             }}
                             open={Boolean(anchorElUser)}
-                            onClose={handleCloseUserMenu}
+                            onClose={e => handleCloseUserMenu(e)}
                             >
                                 {settings.map(setting => (
-                                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                                    <MenuItem key={setting} onClick={e => handleCloseUserMenu(setting)}>
                                         <Typography textAlign='center'>{setting}</Typography>
                                     </MenuItem>
                                 ))}
@@ -77,13 +91,17 @@ export const Bar = () => {
                             id='username'
                             label="Username:"
                             variant='filled'
-                            value={loginData.username}/>
+                            value={loginData.username}
+                            onChange={e => handleLoginChange(e.target.value, 'username')}
+                            />
                         <TextField
                             id='password'
                             type='password'
                             label="Password:"
                             variant='filled'
-                            value={loginData.password}/>
+                            value={loginData.password}
+                            onChange={e => handleLoginChange(e.target.value, 'password')}
+                            />
                         <Button 
                             variant='contained'
                             onClick={handleLoginClick}>
@@ -98,7 +116,7 @@ export const Bar = () => {
                         >
                             Create New Account
                         </Typography>
-                    </>: <></>}
+                    </>: <>{`@${appContext.username}`}</>}
                 </Toolbar>
             </Container>
         </AppBar>
