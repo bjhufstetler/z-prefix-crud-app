@@ -4,13 +4,14 @@ import { Container } from '@mui/system';
 import React, { useState } from 'react';
 import { useFetch } from '../hooks';
 import { useAppContext, useUpdateAppContext } from '../context';
+import { Link } from 'react-router-dom';
 
 const settings = ['Profile', 'My Posts', 'Dashboard', 'Logout'];
 
 export const Bar = () => {
     const appContext = useAppContext();
     const setAppContext = useUpdateAppContext();
-    const {data: users} = useFetch('http://localhost:8080/api/user')
+    const {data: users} = useFetch('http://localhost:8080/api/users')
     const [anchorElUser, setAnchorElUser] = useState(null);
     const [loginData, setLoginData] = useState({username: '', password: ''})
     
@@ -25,9 +26,6 @@ export const Bar = () => {
             console.log('logging out')
         }
     };
-    const handleCreateClick = () => {
-
-    }
     const handleLoginClick = () => {
         const userFound = users.filter(user => user.username === loginData.username)[0]
         userFound ? setAppContext({username: loginData.username, loggedIn: true}) : setLoginData({...loginData, password: ''})
@@ -38,7 +36,7 @@ export const Bar = () => {
         setLoginData(tmpLogin)
     }
     return (
-        <AppBar postition='static'>
+        <AppBar position='static'>
             <Container maxWidth='xl'>
                 <Toolbar disableGutters sx={{display: 'flex', justifyContent: 'space-between'}}>
                     <Box sx={{flexGrow: 0 }} >
@@ -107,15 +105,9 @@ export const Bar = () => {
                             onClick={handleLoginClick}>
                             Login
                         </Button>
-                        <Typography
-                            sx={{
-                                marginLeft: '10px',
-                                textDecoration: 'underline'
-                            }}
-                            onClick={handleCreateClick}
-                        >
+                        <Link to='/create'>
                             Create New Account
-                        </Typography>
+                        </Link>
                     </>: <>{`@${appContext.username}`}</>}
                 </Toolbar>
             </Container>

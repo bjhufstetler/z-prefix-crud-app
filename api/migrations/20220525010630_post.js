@@ -8,7 +8,7 @@ exports.up = function(knex) {
         table.increments('id');
         table.integer('user_id');
         table.foreign('user_id')
-            .references('user.id')
+            .references('users.id')
             .deferrable('deferred')
             .onDelete('SET NULL');
         table.string('title');

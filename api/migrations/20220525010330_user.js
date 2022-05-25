@@ -4,7 +4,7 @@
  */
 exports.up = function(knex) {
   return knex.schema
-    .createTable('user', table => {
+    .createTable('users', table => {
         table.increments('id');
         table.string('first', 255);
         table.string('last', 255);
@@ -19,5 +19,5 @@ exports.up = function(knex) {
  */
 exports.down = function(knex) {
   return knex.schema
-    .dropTableIfExists('user');
+    .dropTableIfExists('users');
 };
