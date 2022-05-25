@@ -4,12 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "npx knex migrate:latest && npx knex seed:run && nodemon start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "express": "^4.18.1",
     "knex": "^2.0.0",
+    "nodemon": "^2.0.16",
     "pg": "^8.7.3"
   }
 }

@@ -1,1 +1,1 @@
-export { useAppContext, useUpdateAppContext } from './context';
+export { useAppContext, useUpdateAppContext, ContextProvider } from './context';
