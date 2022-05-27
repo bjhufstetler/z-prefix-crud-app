@@ -21,6 +21,7 @@ export const Posts = () => {
             if(username) tmp = tmp.filter(x => x.user.username === username);
             setPostData(tmp);
         }
+        console.log(posts, users)
     }, [posts.load, users.load, location]);
 
     return(
