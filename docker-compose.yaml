@@ -38,7 +38,6 @@ services:
     networks:
       - app-network
     environment:
-      NODE_ENV: development
       DATABASE_HOST: db
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: docker
@@ -46,7 +45,6 @@ services:
       POSTGRES_DB: db
     volumes:
       - './api:/app'
-    command: npm run start:dev
 
   ui:
     build: ./ui
