@@ -10,7 +10,7 @@ export const CreateAccount = () => {
     const navigate = useNavigate();
     const appContext = useAppContext();
     const setAppContext = useUpdateAppContext();
-    const users = useFetch('http://localhost:8080/api/users');
+    const users = useFetch('users');
     const [account, setAccount] = useState({username: '', first: '', last: '', password: ''});
     const [duplicateUsername, setDuplicateUsername] = useState(false);
     const handleChange = (value, target) => {
@@ -27,7 +27,7 @@ export const CreateAccount = () => {
             const salt = bcrypt.genSaltSync(10);
             const hash = bcrypt.hashSync(account.password, salt)
             const tmp = {...account, password: hash, salt: salt};
-            CRUD({method: 'POST', path: 'http://localhost:8080/api/users', data: tmp})
+            CRUD({method: 'POST', path: 'users', data: tmp})
             setAppContext({...appContext, username: account.username, loggedIn: true})
             navigate('/')   
         }

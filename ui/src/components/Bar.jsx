@@ -13,7 +13,7 @@ export const Bar = () => {
     const appContext = useAppContext();
     const setAppContext = useUpdateAppContext();
     const settings = appContext.username === '' ? ['Login Required'] : ['Create New Post', 'My Posts', 'Dashboard', 'Logout'];
-    const {data: users} = useFetch('http://localhost:8080/api/users')
+    const {data: users} = useFetch('users')
     const [anchorElUser, setAnchorElUser] = useState(null);
     const [loginData, setLoginData] = useState({username: '', password: ''})
     

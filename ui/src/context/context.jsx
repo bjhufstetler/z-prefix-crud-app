@@ -7,8 +7,8 @@ const updateAppContext = React.createContext();
 const defaultAppContext = {
     username: '',
     loggedIn: false,
-    userURL: 'http://localhost:8080/api/users',
-    postURL: 'http://localhost:8080/api/post'
+    userURL: 'users',
+    postURL: 'post'
 };
 
 export const useAppContext = () => { return(useContext(appContext)) };
