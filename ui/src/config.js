@@ -6,6 +6,7 @@ const config = {
     production: {
       apiUrl: 'https://z-blog-api.herokuapp.com',
     },
+    
     test: {
       apiUrl: '',
     },
