@@ -25,7 +25,7 @@ export const Posts = () => {
 
     return(
         <div>
-        {postData.sort((a,b) => (a.timestamp > b.timestamp) ? 1 : -1).map((post, index) => (
+        {postData.sort((a,b) => (a.timestamp < b.timestamp) ? 1 : -1).map((post, index) => (
             <Post post={post} key={index} />
         ))}
       </div>
