@@ -1,15 +1,19 @@
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import config from './../config';
+const ApiUrl = config[process.env.REACT_APP_NODE_ENV || 'development'].apiUrl;
 
 export const useFetch = (url) => {
     const [data, setData] = useState([]);
     const [err, setErr] = useState(null);
     const [load, setLoad] = useState(false);
+    const baseURL = `${ApiUrl}/api/`
 
     useEffect(() => {
-        fetch(url)
+        fetch(`${baseURL}${url}`)
         .then( res => {
             if(res.ok) {
+                console.log(res)
                 return res.json();
             } else {
                 throw new Error('Cannot convert response to json');
