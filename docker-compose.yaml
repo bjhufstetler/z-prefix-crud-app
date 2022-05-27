@@ -1,48 +1,66 @@
 version: '3'
+
+volumes:
+  pgdatasource:
+
 services:
-  ui:
-    build: ./ui
-    container_name: ui
-    volumes:
-      - './ui:/app'
+  db:
+    image: postgres
+    container_name: db
+    restart: always
+    environment:
+      POSTGRES_HOST: 127.0.0.1
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: docker
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: db
     ports:
-      - '3000:3000'
+      - '5432:5432'
     networks:
       - app-network
-    depends_on:
-      - api
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      interval: 5s
+      start_period: 5s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - ./pgdatasource:/var/lib/postgresql/data
+
   api:
     build: ./api
     container_name: api
-    volumes:
-      - './api:/app'
+    depends_on:
+      db:
+        condition: service_healthy
     ports:
       - '8080:8080'
     networks:
       - app-network
     environment:
-      DB_CONNECTION_STRING: postgres://postgres:password@db:5432/db
-    depends_on:
-      - db
-  db:
-    image: postgres
-    container_name: db
-    ports:
-      - '5432:5432'
-    volumes:
-      - ./api/db/data:/var/lib/postgresql/data
-    networks:
-      - app-network
-    environment:
-      POSTGRES_DB: db
+      NODE_ENV: development
+      DATABASE_HOST: db
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: docker
-    healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -U postgres']
-      interval: 5s
-      start_period: 5s
-      timeout: 10s
-      retries: 5
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: db
+    volumes:
+      - './api:/app'
+    command: npm run start:dev
+
+  ui:
+    build: ./ui
+    container_name: ui
+    environment:
+      FAST_REFRESH: false
+    depends_on:
+      - api
+    ports:
+      - '3000:3000'
+    networks:
+      - app-network
+    volumes:
+      - './ui:/app'
 networks:
   app-network:
     driver: bridge
