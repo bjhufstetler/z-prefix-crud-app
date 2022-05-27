@@ -60,7 +60,7 @@ jobs:
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "z-blog-ui"
-          heroku_email: "bigbpete2@gmail.com"
+          heroku_email: "bjhufstetler@gmail.com"
           appdir: "ui/"
           usedocker: true
 
@@ -79,7 +79,7 @@ jobs:
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "z-blog-api"
-          heroku_email: "bigbpete2@gmail.com"
+          heroku_email: "bjhufstetler@gmail.com"
           appdir: "api/"
           usedocker: true
 
