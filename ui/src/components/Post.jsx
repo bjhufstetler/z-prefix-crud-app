@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAppContext } from '../context';
 import { TextField, Card, CardHeader, CardContent, Typography, CardActions, IconButton } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import CancelIcon from '@mui/icons-material/Cancel';
 import SaveIcon from '@mui/icons-material/Save';
 import { CRUD } from '../crud';
 
@@ -17,15 +18,15 @@ const ExpandMore = styled((props) => {
     marginLeft: 'auto',
   }));
 
-export const Post = ( props ) => {
-    const post = props.post;
-    let subPost = {...post};
-    delete subPost['user']
+export const Post = ( {post} ) => {
     const appContext = useAppContext();
     const [expanded, setExpanded] = useState(false);
     const [editMode, setEditMode] = useState(false);
-    const [postEdit, setPostEdit] = useState(subPost)
+    const [postEdit, setPostEdit] = useState({...post})
     const [deleted, setDeleted] = useState(false);
+    useEffect(() => {
+        setPostEdit(post)
+    }, [post])
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
@@ -43,14 +44,25 @@ export const Post = ( props ) => {
         setPostEdit(tmp)
     }
     const handleSaveClick = () => {
-        CRUD({method: 'PATCH', path: appContext.postURL, data: postEdit})
+        let tmp = {...postEdit};
+        delete tmp['user']
+        CRUD({method: 'PATCH', path: appContext.postURL, data: tmp})
         setEditMode(false)
     }
 
     return(
         <Card variant='outlined' sx={{backgroundColor: 'rgba(40,75,99,.5)'}}>
             <CardHeader
-                avatar={editMode ? <TextField value={postEdit.title} onChange={e => handlePostEdit(e.target.value, 'title')}/> : postEdit.title}
+                avatar={editMode ? 
+                    <TextField 
+                        sx={{
+                            width: '100%',
+                            marginTop: '15px',
+                            marginLeft: '15px'
+                        }}
+                        value={postEdit.title} 
+                        onChange={e => handlePostEdit(e.target.value, 'title')}/> 
+                    : postEdit.title}
                 title={`@${post.user.username} - ${post.user.first} ${post.user.last}`}
                 subheader={post.timestamp}
                 action={appContext.username === post.user.username ? 
@@ -60,14 +72,19 @@ export const Post = ( props ) => {
                         </Typography>
                         :
                         <>
-                            <IconButton onClick={() => handleEditClick()}>
-                                <EditIcon />
-                            </IconButton>
                             {editMode ?
-                                <IconButton onClick={() => handleSaveClick()}>
-                                    <SaveIcon />
+                                <>
+                                    <IconButton onClick={() => handleEditClick()}>
+                                        <CancelIcon />
+                                    </IconButton>
+                                    <IconButton onClick={() => handleSaveClick()}>
+                                        <SaveIcon />
+                                    </IconButton>
+                                </>
+                                :
+                                <IconButton onClick={() => handleEditClick()}>
+                                    <EditIcon />
                                 </IconButton>
-                                : <></>
                             }
                             <IconButton onClick={() => handleDelete()}>
                                 <DeleteIcon sx={{color: 'red'}}/>
@@ -76,10 +93,19 @@ export const Post = ( props ) => {
                 />
             <CardContent>
                 {editMode ? 
-                    <TextField value={postEdit.content} onChange={e => handlePostEdit(e.target.value, 'content')}/>
+                    <TextField 
+                        sx={{
+                            width: '100%',
+                            marginTop: '15px',
+                            marginLeft: '15px'
+                        }}
+                        multiline
+                        rows={20}
+                        value={postEdit.content} 
+                        onChange={e => handlePostEdit(e.target.value, 'content')}/>
                     :
                     <Typography>
-                    {expanded ? postEdit.content : `${postEdit.content.slice(0, 100)} ${postEdit.content.length > 100 ? '...' : ''}`}
+                        {expanded ? postEdit.content : `${postEdit.content.slice(0, 100)} ${postEdit.content.length > 100 ? '...' : ''}`}
                     </Typography>
                 }
             </CardContent>

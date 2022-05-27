@@ -33,7 +33,7 @@ export const NewPost = () => {
             <TextField 
                 label='Title'
                 sx={{
-                    width: '500px',
+                    width: '100%',
                     marginTop: '15px',
                     marginLeft: '15px'
                 }}
@@ -43,7 +43,7 @@ export const NewPost = () => {
             <TextField 
                 label='Content'
                 sx={{
-                    width: '500px',
+                    width: '100%',
                     marginTop: '15px',
                     marginLeft: '15px'
                 }}
