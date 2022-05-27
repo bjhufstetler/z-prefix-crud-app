@@ -6,6 +6,7 @@ import { useFetch } from '../hooks';
 import { useAppContext, useUpdateAppContext } from '../context';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import bcrypt from 'bcryptjs';
 
 export const Bar = () => {
     const navigate = useNavigate();
@@ -35,7 +36,15 @@ export const Bar = () => {
     };
     const handleLoginClick = () => {
         const userFound = users.filter(user => user.username === loginData.username)[0]
-        userFound ? setAppContext({...appContext, username: loginData.username, loggedIn: true}) : setLoginData({...loginData, password: ''})
+        let userAuth = false;
+        if ( userFound ) {
+            const user = users.filter(user => user.username === loginData.username)[0]
+            const hash = user.password;
+            const salt = user.salt;
+            const authHash = bcrypt.hashSync(loginData.password, salt);
+            userAuth = authHash === hash; 
+        }
+        userAuth ? setAppContext({...appContext, username: loginData.username, loggedIn: true}) : setLoginData({...loginData, password: ''})
         navigate('/', { replace: true }, [navigate])
     }
     const handleLoginChange = (value, target) => {

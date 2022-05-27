@@ -1,7 +1,6 @@
 export const CRUD = ({ method, path, data }) => {
     //method: POST, PATCH, DELETE, GET
     const id = data.id ? data.id : '';
-    console.log(data)
     const tmp = {...data}
     delete(tmp['id']);
     let fetchBody = {
