@@ -5,9 +5,9 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
 export const Posts = () => {
-    const location = useLocation();
-    let username = null;
-    if(location.pathname.includes('/user/')) username = location.pathname.substring(6, location.pathname.length);
+    //const location = useLocation();
+    //let username = null;
+    //if(location.pathname.includes('/user/')) username = location.pathname.substring(6, location.pathname.length);
     //const appContext = useAppContext();
     //const posts = useFetch(appContext.postURL);
     //const users = useFetch(appContext.userURL);
