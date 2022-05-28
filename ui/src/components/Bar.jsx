@@ -2,7 +2,7 @@ import { AppBar, Toolbar, Typography, Box, IconButton, Menu, MenuItem, TextField
 import MenuIcon from '@mui/icons-material/Menu';
 import { Container } from '@mui/system';
 import React, { useState } from 'react';
-import { useFetch } from '../hooks';
+//import { useFetch } from '../hooks';
 import { useAppContext, useUpdateAppContext } from '../context';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
@@ -13,7 +13,8 @@ export const Bar = () => {
     const appContext = useAppContext();
     const setAppContext = useUpdateAppContext();
     const settings = appContext.username === '' ? ['Login Required'] : ['Create New Post', 'My Posts', 'Dashboard', 'Logout'];
-    const {data: users} = useFetch('users')
+    //const {data: users} = useFetch('users')
+    const users = []
     const [anchorElUser, setAnchorElUser] = useState(null);
     const [loginData, setLoginData] = useState({username: '', password: ''})
     
