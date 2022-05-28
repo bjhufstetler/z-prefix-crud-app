@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { useFetch } from '../hooks';
-import { Post } from './'
-import { useAppContext } from '../context';
+//import { useFetch } from '../hooks';
+//import { Post } from './'
+//import { useAppContext } from '../context';
 import { useLocation } from 'react-router-dom';
 
 export const Posts = () => {
-    const location = useLocation();
-    let username = null;
-    if(location.pathname.includes('/user/')) username = location.pathname.substring(6, location.pathname.length);
-    const appContext = useAppContext();
-    const posts = useFetch(appContext.postURL);
-    const users = useFetch(appContext.userURL);
-    const [postData, setPostData] = useState([]);
-    
+    //const location = useLocation();
+    //let username = null;
+    //if(location.pathname.includes('/user/')) username = location.pathname.substring(6, location.pathname.length);
+    //const appContext = useAppContext();
+    //const posts = useFetch(appContext.postURL);
+    //const users = useFetch(appContext.userURL);
+    //const [postData, setPostData] = useState([]);
+    /*
     useEffect(() => { // Use this to combine the user data with the post data
         if(posts.load && users.load) {
             let tmp = [...posts.data].map(post => {
@@ -21,7 +21,6 @@ export const Posts = () => {
             if(username) tmp = tmp.filter(x => x.user.username === username);
             setPostData(tmp);
         }
-        console.log(posts, users)
     }, [posts.load, users.load, location]);
 
     return(
@@ -31,4 +30,6 @@ export const Posts = () => {
         ))}
       </div>
     );
+    */
+   return (<></>);
 };
