@@ -7,9 +7,9 @@ export const useFetch = (url) => {
     const [data, setData] = useState([]);
     const [err, setErr] = useState(null);
     const [load, setLoad] = useState(false);
-    const baseURL = `${ApiUrl}/api/`
-
+    
     useEffect(() => {
+        const baseURL = `${ApiUrl}/api/`
         fetch(`${baseURL}${url}`)
         .then( res => {
             if(res.ok) {

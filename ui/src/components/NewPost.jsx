@@ -1,4 +1,4 @@
-import { TextField, Button, bottomNavigationClasses } from '@mui/material';
+import { TextField, Button } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useAppContext } from '../context';
 import { useFetch } from '../hooks';
@@ -10,8 +10,8 @@ export const NewPost = () => {
     const appContext = useAppContext();
     const users = useFetch(appContext.userURL);
     const [newPost, setNewPost] = useState({title: '', content:''});
-    let user_id = null;
     useEffect(() => {
+        let user_id = null;
         if(users.load) {
             user_id = users.data.filter(x => x.username === appContext.username)[0].id
             setNewPost({...newPost, user_id})
