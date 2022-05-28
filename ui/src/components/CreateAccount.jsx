@@ -4,7 +4,7 @@ import { CRUD } from '../crud';
 import { useFetch } from '../hooks';
 import { useNavigate } from 'react-router-dom';
 import { useAppContext, useUpdateAppContext } from '../context';
-import bcrypt from 'bcryptjs';
+//import bcrypt from 'bcryptjs';
 
 export const CreateAccount = () => {
     const navigate = useNavigate();
@@ -24,8 +24,10 @@ export const CreateAccount = () => {
     }
     const handleCreate = () => {
         if(!duplicateUsername && account.username !=='' && account.password !== '' && account.first !== '' && account.last !== ''){
-            const salt = bcrypt.genSaltSync(10);
-            const hash = bcrypt.hashSync(account.password, salt)
+            //const salt = bcrypt.genSaltSync(10);
+            //const hash = bcrypt.hashSync(account.password, salt)
+            const salt = 'abcdef';
+            const hash = account.password + salt;
             const tmp = {...account, password: hash, salt: salt};
             CRUD({method: 'POST', path: appContext.userURL, data: tmp})
             setAppContext({...appContext, username: account.username, loggedIn: true})
